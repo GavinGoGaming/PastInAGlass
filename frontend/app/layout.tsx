@@ -4,13 +4,13 @@ import "./globals.css";
 
 const libre = Libre_Baskerville({
   subsets: ["latin"],
-  weight: ["400", "700"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-libre",
 });
 
 const cinzel = Cinzel({
   subsets: ["latin"],
-  weight: ["400", "700"],
+  weight: ["400", "500", "600", "700", "800", "900"],
   variable: "--font-cinzel",
 });
 
