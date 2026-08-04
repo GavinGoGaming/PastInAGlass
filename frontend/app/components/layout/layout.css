@@ -2,9 +2,21 @@
     height: 60px;
     width: 100%;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    border-bottom: var(--border-width) solid var(--ring);
+    justify-content: center;
+    border-bottom: var(--border-width) solid color-mix(in oklab, var(--ring) 50%, transparent);
+}
+.navbar-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1000px;
+}
+
+.navbar > div {
+    flex: 1;
+    width: 100%;
 }
 
 .navbar-logo {
@@ -27,10 +39,32 @@
 .navbar-right {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 5px;
     margin-right: 20px;
+    justify-content: flex-end;
+    color: color-mix(in oklab, var(--foreground) 90%, var(--background));
 }
 
+.filter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    transition: all 0.2s ease-in-out;
+}
+.filter:hover {
+    color: var(--primary);
+    cursor: pointer;
+}
+.filter:hover i {
+    --fa: "\f0c9";
+}
+
+.navbar-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .navbar-links i {
     font-size: 20px;
 }
