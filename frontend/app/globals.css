@@ -9,6 +9,7 @@
   --border: #c9a44a26;
   --ring: #c9a44a66;
   --border-width: 1px;
+  --content-width: 1100px;
 }
 
 html,
@@ -24,8 +25,10 @@ body {
 
 .content {
   height: calc(100vh - 60px);
-  overflow-y: scroll;
-  overflow-x: visible;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-color: var(--primary) var(--background);
+  scrollbar-width: thin;
 }
 
 p {
@@ -34,13 +37,13 @@ p {
 
 .header {
   width: 100vw;
-  padding-top: 20px;
+  padding: 20px 0;
   min-height: 430px;
   background: radial-gradient(65% 75%, transparent 20%, rgba(17, 21, 8, 0.82) 100%);
   /* background: red; */
 }
 .header-inner {
-  max-width: 1000px;
+  max-width: var(--content-width);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -88,7 +91,6 @@ p {
   color: var(--primary-muted);
   font-size: .875rem;
   font-weight: 500;
-  text-transform: uppercase;
   letter-spacing: 0.2rem;
 }
 
@@ -171,7 +173,7 @@ p {
   margin: 4rem auto;
   display: flex;
   width: 100%;
-  max-width: 1000px;
+  max-width: var(--content-width);
   flex-direction: column;
   text-transform: uppercase;
   font-family: var(--font-cinzel);
@@ -179,4 +181,148 @@ p {
   font-size: .975rem;
   color: var(--foreground-muted);
   align-items: center;
+}
+
+.archive-drinks {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(3, auto);
+  gap: 2rem;
+  width: 100%;
+  margin-top: 2.5rem;
+}
+
+.archive-drink {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  aspect-ratio: 4 / 5;
+  background-size: cover;
+  background-position: center;
+  border-width: var(--border-width);
+  border-style: solid;
+  border-color: var(--border);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.7s cubic-bezier(.4,0,.2,1);
+}
+
+.archive-drink img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  scale: 1;
+  transition: all 0.7s cubic-bezier(.4,0,.2,1);
+}
+
+.archive-drink::before {
+  content: "";
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 0.625rem;
+  left: 0.625rem;
+  z-index: 1;
+  background: transparent;
+  border-top: var(--border-width) solid var(--primary-muted);
+  border-left: var(--border-width) solid var(--primary-muted);
+  z-index: 2;
+  opacity: 0;
+  transition: all 0.7s cubic-bezier(.4,0,.2,1);
+}
+.archive-drink::after {
+  content: "";
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 0.625rem;
+  right: 0.625rem;
+  z-index: 1;
+  background: transparent;
+  border-top: var(--border-width) solid var(--primary-muted);
+  border-right: var(--border-width) solid var(--primary-muted);
+  z-index: 2;
+  opacity: 0;
+  transition: all 0.7s cubic-bezier(.4,0,.2,1);
+}
+.archive-drink:hover::before,
+.archive-drink:hover::after {
+  opacity: 1;
+}
+
+.archive-drink a {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: var(--foreground);
+  background: linear-gradient(to top in oklab, color-mix(in oklab, var(--background) 94%,transparent) 0%, color-mix(in oklab, var(--background) 20%,transparent) 50%, transparent 100%);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  box-sizing: border-box;
+  padding: 1.25rem;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+.archive-drink a h2 {
+  font-family: var(--font-cinzel);
+  font-weight: 500;
+  font-size: 1.3rem;
+  margin: 0;
+  text-transform: uppercase;
+  transition: all 0.2s ease-in-out;
+}
+.archive-drink:hover a h2 {
+  color: var(--primary);
+}
+.archive-drink a > span {
+  color: var(--foreground-muted);
+  font-family: var(--font-libre);
+  font-weight: 400;
+  font-size: .75rem;
+  line-height: 1.625;
+  text-transform: none;
+  /* 2 lines, ... */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin: 1rem 0;
+}
+.archive-drink:hover img {
+  scale: 1.05;
+}
+.archive-drink:hover {
+  border-color: var(--ring);
+}
+
+.archive-drink .tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.archive-drink .tags span {
+  font-family: var(--font-libre);
+  font-weight: 400;
+  font-size: .75rem;
+  line-height: 1.625;
+  text-transform: none;
+  color: var(--foreground-muted);
+  border: var(--border-width) solid color-mix(in oklab, var(--foreground-muted) 40%, transparent);
+  padding: 0.25rem 0.5rem;
+  backdrop-filter: blur(6px);
+  cursor: default;
+  transition: all 0.2s ease-in-out;
+}
+.archive-drink .tags span:hover {
+  color: var(--primary);
+  border-color: var(--primary);
 }

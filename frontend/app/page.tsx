@@ -3,7 +3,8 @@ import { client, FETCH_OPTIONS, POSTS_QUERY } from "./sanity/client";
 import { createImageUrlBuilder, SanityImageSource } from "@sanity/image-url"; // add /signed ?
 import PageLayout from "./components/layout/PageLayout";
 import Header from "./components/header/Header";
-  
+import Card from "./components/cards/Card";
+
 const { projectId, dataset } = client.config();
 const urlFor = (source: SanityImageSource) =>
   projectId && dataset
@@ -12,7 +13,7 @@ const urlFor = (source: SanityImageSource) =>
 
 export default async function Home() {
   const posts = await client.fetch<SanityDocument[]>(POSTS_QUERY, {}, FETCH_OPTIONS);
-  
+
   return (
     <PageLayout>
       <Header />
@@ -29,16 +30,19 @@ export default async function Home() {
             <div className="spacer-square"></div>
           </div>
         </div>
-      </div>
-      {/* {posts.length}
-      {posts.map((post) => (
-        <div key={post._id}>
-          <h2>{post.title}</h2>
-          <p>{post.tags.map((b: any) => b.label).join(', ')}</p>
-          <img src={post.image ? urlFor(post.image)?.width(500).height(500).url() : undefined} alt={post.title} />
-          {Array.isArray(post.body) && <PortableText value={post.body} />}
+        <div className="archive-drinks">
+          {posts.map((post) => (
+            <Card
+              key={post._id}
+              description={post.body}
+              title={post.title}
+              imageUrl={post.image ? urlFor(post.image)?.width(500).height(500).url() || "" : ""}
+              linkUrl={`/posts/${post.slug.current}`}
+              tags={Array.isArray(post.tags) ? post.tags.map((tag: any) => tag.label) : []}
+            />
+          ))}
         </div>
-      ))} */}
+      </div>
     </PageLayout>
   );
 }
