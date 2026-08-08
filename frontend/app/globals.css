@@ -184,6 +184,7 @@ p {
   font-size: .975rem;
   color: var(--foreground-muted);
   align-items: center;
+  overflow-x: hidden;
 }
 
 .archive-drinks {
@@ -312,7 +313,7 @@ p {
   gap: 0.5rem;
   flex-wrap: wrap;
 }
-.archive-drink .tags span {
+/* .archive-drink .tags span {
   font-family: var(--font-libre);
   font-weight: 400;
   font-size: .75rem;
@@ -328,7 +329,7 @@ p {
 .archive-drink .tags span:hover {
   color: var(--primary);
   border-color: var(--primary);
-}
+} */
 button {
   background: transparent;
   font-family: var(--font-cinzel);
@@ -350,8 +351,8 @@ button:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 1rem;
-  height: 30px;
+  margin-top: 2.5rem;
+  height: 47px;
 }
 .archive-filters-inline input {
   width: 100%;
@@ -363,9 +364,10 @@ button:hover {
   font-family: var(--font-libre);
   font-weight: 400;
   font-size: .975rem;
-  padding: 0.5rem 1rem;
+  padding-left: 1rem;
   border: var(--border-width) solid var(--ring);
   transition: all 0.2s ease-in-out;
+  min-height: 48px;
 }
 .archive-filters-inline input::placeholder {
   color: var(--foreground-muted);
@@ -375,11 +377,166 @@ button:hover {
   align-items: center;
   justify-content: center;
   gap: 4px;
+  min-height: 50px;
   height: 100%;
-  padding: 0.5rem 1rem;
+  padding: 0 1rem;
   border: var(--border-width) solid var(--ring);
   transition: all 0.2s ease-in-out;
 }
 .archive-filters-inline > *:hover {
   border-color: var(--primary-muted);
+}
+
+.archive-filters-overlay {
+  position: fixed;
+  inset: 0;
+  background: color-mix(in oklab, var(--background) 60%, transparent);
+  backdrop-filter: blur(4px) brightness(0.6);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease-in-out;
+  z-index: 39;
+}
+
+.archive-filters-overlay.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.archive-filters {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 380px;
+  max-width: 90vw;
+  background: color-mix(in oklab, var(--background) 92%, transparent);
+  backdrop-filter: blur(10px);
+  border-left: var(--border-width) solid var(--border);
+  padding: 2rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  transform: translateX(100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  z-index: 40;
+  overflow-y: auto;
+}
+
+.archive-filters.is-open {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.archive-filters-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 1.5rem;
+  border-bottom: var(--border-width) solid var(--border);
+}
+
+.archive-filters-header span {
+  font-family: var(--font-libre);
+  font-weight: 400;
+  font-size: 0.9rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--primary-muted);
+}
+
+.archive-filters-header i {
+  color: var(--foreground-muted);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+}
+
+.archive-filters-header i:hover {
+  color: var(--primary);
+}
+
+.archive-filters input[type="text"] {
+  width: 100%;
+  background: transparent;
+  border: var(--border-width) solid var(--ring);
+  outline: none;
+  color: var(--foreground);
+  font-family: var(--font-libre);
+  font-weight: 400;
+  font-size: 0.975rem;
+  padding: 0.65rem 1rem;
+  box-sizing: border-box;
+  transition: all 0.2s ease-in-out;
+}
+
+.archive-filters input[type="text"]::placeholder {
+  color: var(--foreground-muted);
+}
+
+.archive-filters input[type="text"]:hover,
+.archive-filters input[type="text"]:focus {
+  border-color: var(--primary-muted);
+}
+
+.archive-filters .tags-filter-label {
+  font-family: var(--font-libre);
+  font-weight: 400;
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--foreground-muted);
+}
+
+.tags-filter {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.archive-tags-inline {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.tag {
+  font-family: var(--font-libre);
+  font-weight: 400;
+  font-size: 0.75rem;
+  text-transform: none;
+  color: var(--foreground-muted);
+  border: var(--border-width) solid color-mix(in oklab, var(--foreground-muted) 40%, transparent);
+  padding: 0.25rem 0.5rem;
+  backdrop-filter: blur(6px);
+  cursor: default;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+}
+
+.tag i {
+  font-size: 0.5rem;
+}
+
+.tag:hover {
+  color: var(--primary-muted);
+  border-color: var(--primary-muted);
+}
+
+.tag.selected {
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+.tag.selected:hover {
+  color: color-mix(in oklab, var(--primary) 80%, transparent);
+  border-color: color-mix(in oklab, var(--primary) 80%, transparent);
 }

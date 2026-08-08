@@ -14,31 +14,45 @@ export default function ArchiveSection({ posts }: { posts: SanityDocument[] }) {
         )
     );
 
+    const [isOpen, setIsOpen] = useState(false);
+    const onClose = () => setIsOpen(false);
+
     return (
         <>
-            <div className="archive-filters">
-                <input
-                    type="text"
-                    placeholder="Search..."
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                />
-                <div className="tags-filter">
-                    {tags.map((tag) => (
-                        <span
-                            key={tag}
-                            className={`tag ${tagsFilter.includes(tag) ? "selected" : ""}`}
-                            onClick={() => {
-                                if (tagsFilter.includes(tag)) {
-                                    setTagsFilter(tagsFilter.filter((t) => t !== tag));
-                                } else {
-                                    setTagsFilter([...tagsFilter, tag]);
-                                }
-                            }}
-                        >
-                            {tag}
-                        </span>
-                    ))}
+            <div className={`archive-filters-wrapper`}>
+                <div
+                    className={`archive-filters-overlay ${isOpen ? "is-open" : ""}`} onClick={onClose}></div>
+                <div className={`archive-filters ${isOpen ? "is-open" : ""}`}>
+                    <div className="archive-filters-header">
+                        <span>Browse</span>
+                        <i className="fas fa-x" onClick={onClose}></i>
+                    </div>
+                    <input
+                        type="text"
+                        placeholder="Search..."
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                    />
+                    <div className="tags-filter-group">
+                        <span className="tags-filter-label">Tags</span>
+                        <div className="tags-filter">
+                            {tags.map((tag) => (
+                                <span
+                                    key={tag}
+                                    className={`tag ${tagsFilter.includes(tag) ? "selected" : ""}`}
+                                    onClick={() => {
+                                        setTagsFilter(
+                                            tagsFilter.includes(tag)
+                                                ? tagsFilter.filter((t) => t !== tag)
+                                                : [...tagsFilter, tag]
+                                        );
+                                    }}
+                                >
+                                    {tag}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
                 </div>
             </div>
             <div className="archive-filters-inline">
@@ -48,12 +62,32 @@ export default function ArchiveSection({ posts }: { posts: SanityDocument[] }) {
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                 />
-                <div className="filter">
+                <div className="filter" onClick={() => setIsOpen(!isOpen)}>
                     Filter
                     <i className="far fa-bars-staggered"></i>
                 </div>
             </div>
-            <ArchiveGrid posts={posts} search={search} tagsFilter={tagsFilter} />
+            <div className="archive-tags-inline">
+                {tagsFilter.map((tag) => (
+                    <span
+                        key={tag + '-filterinline'}
+                        className="tag selected"
+                        onClick={() => {
+                            setTagsFilter(tagsFilter.filter((t) => t !== tag));
+                        }}
+                    >
+                        <i className="fas fa-x"></i>
+                        {tag}
+                    </span>
+                ))}
+            </div>
+            <ArchiveGrid posts={posts} search={search} tagsFilter={tagsFilter} toggleTagFilter={(tag) => {
+                setTagsFilter(
+                    tagsFilter.includes(tag)
+                        ? tagsFilter.filter((t) => t !== tag)
+                        : [...tagsFilter, tag]
+                );
+            }} />
         </>
     );
 }
