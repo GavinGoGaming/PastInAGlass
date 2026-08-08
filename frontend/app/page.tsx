@@ -27,8 +27,6 @@ export default async function Home() {
         <span>The Archive</span>
         <div className="spacer-large">
           <div className="spacer-graphic">
-            {/* pureCSS version of:
-            <div class="flex items-center gap-1.5" data-fg-d3bl117=":0:/src/app/App.tsx:504:15:19520:397:e:div:etetetete"><div class="w-1 h-1 rotate-45 bg-primary/50" data-fg-d3bl118=":0:/src/app/App.tsx:505:17:19580:51:e:div"></div><div class="w-3 h-px bg-primary/50" data-fg-d3bl119=":0:/src/app/App.tsx:506:17:19648:42:e:div"></div><div class="w-2 h-2 rotate-45 border border-primary/60" data-fg-d3bl120=":0:/src/app/App.tsx:507:17:19707:62:e:div"></div><div class="w-3 h-px bg-primary/50" data-fg-d3bl121=":0:/src/app/App.tsx:508:17:19786:42:e:div"></div><div class="w-1 h-1 rotate-45 bg-primary/50" data-fg-d3bl122=":0:/src/app/App.tsx:509:17:19845:51:e:div"></div></div> */}
             <div className="spacer-square"></div>
             <div className="spacer-line"></div>
             <div className="spacer-square-large"></div>

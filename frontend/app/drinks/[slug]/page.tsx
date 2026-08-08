@@ -1,15 +1,63 @@
-import PageLayout from "@/app/components/layout/PageLayout";
+import { Metadata } from 'next';
+import { client, FETCH_OPTIONS } from "../../sanity/client"; // Adjust path if needed
+import { createImageUrlBuilder, SanityImageSource } from "@sanity/image-url";
+import DrinkPageContent from './content';
+import blocksToText from '@/app/utils/portableToPlain';
 
-interface PageProps {
-    params: Promise<{ slug: string }>;
+const { projectId, dataset } = client.config();
+const urlFor = (source: SanityImageSource) =>
+  projectId && dataset
+    ? createImageUrlBuilder({ projectId, dataset }).image(source)
+    : null;
+
+type Props = {
+  params: Promise<{ slug: string }>;
+};
+
+export async function generateStaticParams() {
+  const slugs = await client.fetch<{ slug: { current: string } }[]>(
+    `*[_type == "drink" && defined(slug.current)]{ slug }`,
+    {},
+    FETCH_OPTIONS
+  );
+
+  return slugs.map((item) => ({
+    slug: item.slug.current,
+  }));
 }
 
-export default async function DrinkPage({ params }: PageProps) {
-    const { slug } = await params;
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const drink = await client.fetch(
+    `*[_type == "drink" && slug.current == $slug][0]{ title, body }`,
+    { slug },
+    FETCH_OPTIONS
+  );
 
-    return (
-        <PageLayout>
-            <h1>Current Slug: {slug}</h1>
-        </PageLayout>
-    );
+  if (!drink) return { title: "Drink Not Found" };
+
+  return {
+    title: `${drink.title} | Past in a Glass`,
+    description: drink?.body ? blocksToText(drink.body) : `${drink.title} on Past in a Glass`,
+  };
+}
+export default async function Page({ params }: Props) {
+  const { slug } = await params;
+
+  const drink = await client.fetch(
+    `*[_type == "drink" && slug.current == $slug][0]`,
+    { slug },
+    FETCH_OPTIONS
+  );
+
+  if (!drink) {
+    return <main style={{ padding: '2rem' }}>Drink not found</main>;
+  }
+  const drinkWithImageUrl = {
+    ...drink,
+    imageUrl: drink.image ? urlFor(drink.image)?.width(1000).height(1000).url() || "" : "",
+    headerImageUrl: drink.headerImage ? urlFor(drink.headerImage)?.width(1000).height(1000).url() || "" : undefined,
+  };
+
+  return <DrinkPageContent data={drinkWithImageUrl} />;
 }

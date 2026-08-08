@@ -16,7 +16,8 @@ export const drinkType = defineType({
             type: 'tags',
             options: {
                 includeFromRelated: 'tags',
-            }
+            },
+            validation: (rule) => rule.required(),
         }),
         defineField({
             name: 'slug',
@@ -27,18 +28,27 @@ export const drinkType = defineType({
         defineField({
             name: 'image',
             type: 'image',
+            validation: (rule) => rule.required(),
+        }),
+        defineField({
+            name: 'header',
+            title: 'Header Image',
+            description: 'Optional recommended image for the header. If not provided, main image will be used.',
+            type: 'image',
         }),
         defineField({
             name: 'body',
             title: "Body / Description",
             type: 'array',
             of: [{ type: 'block' }],
+            validation: (rule) => rule.required(),
         }),
         defineField({
             name: 'recipe',
             title: "Recipe",
             type: 'array',
             of: [{ type: 'block' }],
+            validation: (rule) => rule.required(),
         }),
     ],
 })

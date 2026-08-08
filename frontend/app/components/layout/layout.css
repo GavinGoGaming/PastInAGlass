@@ -56,7 +56,7 @@
     color: var(--primary);
     cursor: pointer;
 }
-.filter:hover i {
+.filter:not(.not-filter):hover i {
     --fa: "\f0c9";
 }
 
@@ -67,4 +67,52 @@
 }
 .navbar-links i {
     font-size: 20px;
+}
+
+/*<div className="footer">
+                    <img src="/glass.png" alt="Past in a Glass" />
+                    <span className="footer-title">Past in a Glass</span>
+                    <span className="footer-text">
+                        <span>A collection of recipes & stories from the past.</span>
+                        <a href="https://www.instagram.com/pastinaglass/" target="_blank" rel="noopener noreferrer">
+                            <i className="fab fa-instagram"></i> Instagram
+                        </a>
+                    </span>
+                </div>*/
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    border-top: var(--border-width) solid color-mix(in oklab, var(--ring) 50%, transparent);
+    color: color-mix(in oklab, var(--foreground) 90%, var(--background));
+}
+.footer img {
+    height: 40px;
+    width: 40px;
+}
+.footer-title {
+    font-family: var(--font-cinzel);
+    font-weight: 400;
+    font-size: 1.3rem;
+    color: var(--primary);
+    padding-bottom: 10px;
+}
+.footer-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 0.9rem;
+}
+.footer-text a {
+    color: var(--primary);
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+}
+.footer-text a:hover {
+    color: color-mix(in oklab, var(--primary) 80%, var(--background));
 }

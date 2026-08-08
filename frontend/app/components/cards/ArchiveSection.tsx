@@ -3,6 +3,7 @@
 import { useState } from "react";
 import ArchiveGrid from "./ArchivePosts";
 import type { SanityDocument } from "next-sanity";
+import { usePageState } from "../layout/PageState";
 
 export default function ArchiveSection({ posts }: { posts: SanityDocument[] }) {
     const [search, setSearch] = useState("");
@@ -14,15 +15,15 @@ export default function ArchiveSection({ posts }: { posts: SanityDocument[] }) {
         )
     );
 
-    const [isOpen, setIsOpen] = useState(false);
-    const onClose = () => setIsOpen(false);
+    const {isFilterOpen, setIsFilterOpen} = usePageState();
+    const onClose = () => setIsFilterOpen(false);
 
     return (
         <>
             <div className={`archive-filters-wrapper`}>
                 <div
-                    className={`archive-filters-overlay ${isOpen ? "is-open" : ""}`} onClick={onClose}></div>
-                <div className={`archive-filters ${isOpen ? "is-open" : ""}`}>
+                    className={`archive-filters-overlay ${isFilterOpen ? "is-open" : ""}`} onClick={onClose}></div>
+                <div className={`archive-filters ${isFilterOpen ? "is-open" : ""}`}>
                     <div className="archive-filters-header">
                         <span>Browse</span>
                         <i className="fas fa-x" onClick={onClose}></i>
@@ -62,7 +63,7 @@ export default function ArchiveSection({ posts }: { posts: SanityDocument[] }) {
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                 />
-                <div className="filter" onClick={() => setIsOpen(!isOpen)}>
+                <div className="filter" onClick={() => setIsFilterOpen(!isFilterOpen)}>
                     Filter
                     <i className="far fa-bars-staggered"></i>
                 </div>
