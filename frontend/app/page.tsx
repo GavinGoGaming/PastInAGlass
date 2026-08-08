@@ -4,15 +4,21 @@ import { createImageUrlBuilder, SanityImageSource } from "@sanity/image-url"; //
 import PageLayout from "./components/layout/PageLayout";
 import Header from "./components/header/Header";
 import Card from "./components/cards/Card";
+import ArchiveGrid from "./components/cards/ArchivePosts";
+import ArchiveSection from "./components/cards/ArchiveSection";
 
 const { projectId, dataset } = client.config();
 const urlFor = (source: SanityImageSource) =>
   projectId && dataset
     ? createImageUrlBuilder({ projectId, dataset }).image(source)
     : null;
-
 export default async function Home() {
   const posts = await client.fetch<SanityDocument[]>(POSTS_QUERY, {}, FETCH_OPTIONS);
+  
+  const postsWithImages = posts.map((post) => ({
+    ...post,
+    imageUrl: post.image ? urlFor(post.image)?.width(500).height(500).url() || "" : "",
+  }));
 
   return (
     <PageLayout>
@@ -30,18 +36,7 @@ export default async function Home() {
             <div className="spacer-square"></div>
           </div>
         </div>
-        <div className="archive-drinks">
-          {posts.map((post) => (
-            <Card
-              key={post._id}
-              description={post.body}
-              title={post.title}
-              imageUrl={post.image ? urlFor(post.image)?.width(500).height(500).url() || "" : ""}
-              linkUrl={`/posts/${post.slug.current}`}
-              tags={Array.isArray(post.tags) ? post.tags.map((tag: any) => tag.label) : []}
-            />
-          ))}
-        </div>
+        <ArchiveSection posts={postsWithImages} />
       </div>
     </PageLayout>
   );
