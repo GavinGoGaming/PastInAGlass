@@ -10,8 +10,8 @@ export interface CardProps {
     imageUrl: string;
     linkUrl: string;
     tags: string[];
-    tagsFilter: string[];
-    toggleTagFilter: (tag: string) => void;
+    tagsFilter?: string[];
+    toggleTagFilter?: (tag: string) => void;
 }
 
 export default function Card({ title, description, imageUrl, linkUrl, tags, tagsFilter, toggleTagFilter }: CardProps) {
@@ -25,8 +25,8 @@ export default function Card({ title, description, imageUrl, linkUrl, tags, tags
                 </span>
                 <div className="tags">
                     {tags.map((tag, index) => (
-                        <span key={index} className={`tag ${tagsFilter.includes(tag) ? "selected" : ""}`} onClick={(e) => {
-                            toggleTagFilter(tag);
+                        <span key={index} className={`tag ${tagsFilter?.includes(tag) ? "selected" : ""}`} onClick={(e) => {
+                            toggleTagFilter?.(tag);
                             e.stopPropagation();
                             e.preventDefault();
                         }}>

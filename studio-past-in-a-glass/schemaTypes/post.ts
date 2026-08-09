@@ -26,6 +26,13 @@ export const drinkType = defineType({
             validation: (rule) => rule.required(),
         }),
         defineField({
+            name: 'photographer',
+            type: 'string',
+            title: 'Photo Credit',
+            description: 'Optional instagram username (without @) to credit photographer of the drink image.',
+            initialValue: 'reikomasutani',
+        }),
+        defineField({
             name: 'image',
             type: 'image',
             validation: (rule) => rule.required(),
@@ -49,6 +56,12 @@ export const drinkType = defineType({
             type: 'array',
             of: [{ type: 'block' }],
             validation: (rule) => rule.required(),
+        }),
+        defineField({
+            name: 'instagram',
+            title: 'Instagram Post URL',
+            type: 'url',
+            description: 'Optional Instagram post URL.',
         }),
     ],
 })

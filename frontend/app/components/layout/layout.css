@@ -84,6 +84,7 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    text-align: center;
     gap: 10px;
     padding: 20px;
     border-top: var(--border-width) solid color-mix(in oklab, var(--ring) 50%, transparent);
@@ -107,12 +108,4 @@
     flex-direction: column;
     gap: 5px;
     font-size: 0.9rem;
-}
-.footer-text a {
-    color: var(--primary);
-    text-decoration: none;
-    transition: all 0.2s ease-in-out;
-}
-.footer-text a:hover {
-    color: color-mix(in oklab, var(--primary) 80%, var(--background));
 }
