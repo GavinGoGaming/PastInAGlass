@@ -27,6 +27,7 @@ export const keylistType = defineType({
             name: 'tags',
             title: 'Tags',
             type: 'tags',
+            description: 'Note: Don\'t add tags to this list until at least one drink has been created with that tag.',
             options: {
                 // includeFromRelated: 'tags',
                 predefinedTags: async () => {
