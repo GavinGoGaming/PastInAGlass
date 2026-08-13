@@ -12,6 +12,7 @@ export default function ArchiveSection({ posts, spirits }: { posts: SanityDocume
 
     const [pathname, setPathname] = useState<string>("");
     useEffect(() => {
+        if(!window) return;
         setPathname(window.location.pathname);
     }, []);
 
