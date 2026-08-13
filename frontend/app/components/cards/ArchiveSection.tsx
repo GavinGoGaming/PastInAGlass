@@ -56,7 +56,7 @@ export default function ArchiveSection({ posts, spirits }: { posts: SanityDocume
                     <div className="tags-filter-group">
                         <span className="tags-filter-label">Filter by Tags</span>
                         <div className="tags-filter">
-                            {tags.map((tag) => (
+                            {tags.filter((tag) => !spirits || !spirits.includes(tag)).map((tag) => (
                                 <span
                                     key={tag}
                                     className={`tag ${tagsFilter.includes(tag) ? "selected" : ""}`}

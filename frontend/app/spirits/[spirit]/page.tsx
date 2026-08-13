@@ -26,12 +26,11 @@ export default async function SpiritPage({ params }: { params: Promise<{ spirit:
   }));
   const spirits = await client.fetch<string[]>(`*[_type == "keylist" && slug.current == "tag-list-spirits"][0].tags[]`, {}, FETCH_OPTIONS);
 
-
   return (
     <PageLayout>
       <Header 
-        customTitle={<h1>{spirit}</h1>}
-        customDescription={<p>All drinks made with {spirit.toLowerCase()}.</p>}
+        customTitle={spirit}
+        customDescription={`All drinks made with ${spirit.toLowerCase()}.`}
       />
       <div className="archive">
         <span>The Archive</span>
@@ -44,7 +43,7 @@ export default async function SpiritPage({ params }: { params: Promise<{ spirit:
             <div className="spacer-square"></div>
           </div>
         </div>
-        <ArchiveSection spirits={spirits} posts={postsWithImages} />
+        <ArchiveSection spirits={spirits.map((tag: any) => tag.label)} posts={postsWithImages} />
       </div>
     </PageLayout>
   );
