@@ -1,0 +1,49 @@
+import { PortableText, type SanityDocument } from "next-sanity";
+import { client, FETCH_OPTIONS, POSTS_QUERY } from "../../sanity/client";
+import { createImageUrlBuilder, SanityImageSource } from "@sanity/image-url"; // add /signed ?
+import PageLayout from "../../components/layout/PageLayout";
+import Header from "../../components/header/Header";
+import Card from "../../components/cards/Card";
+import ArchiveGrid from "../../components/cards/ArchivePosts";
+import ArchiveSection from "../../components/cards/ArchiveSection";
+
+const { projectId, dataset } = client.config();
+const urlFor = (source: SanityImageSource) =>
+  projectId && dataset
+    ? createImageUrlBuilder({ projectId, dataset }).image(source)
+    : null;
+    // is in /spirits/[spirit]/page.tsx, so grab the spirit
+export default async function SpiritPage({ params }: { params: Promise<{ spirit: string }> }) {
+  const { spirit } = await params;
+  const posts = await client.fetch<SanityDocument[]>(`*[_type == "drink" && $spirit in tags[].label]{
+    ...,
+    "matchCount": count((tags[].label)[@ in [$spirit]])
+  }`, { spirit }, FETCH_OPTIONS);
+
+  const postsWithImages = posts.map((post) => ({
+    ...post,
+    imageUrl: post.image ? urlFor(post.image)?.width(500).height(500).url() || "" : "",
+  }));
+
+  return (
+    <PageLayout>
+      <Header 
+        customTitle={<h1>{spirit}</h1>}
+        customDescription={<p>All drinks made with {spirit.toLowerCase()}.</p>}
+      />
+      <div className="archive">
+        <span>The Archive</span>
+        <div className="spacer-large">
+          <div className="spacer-graphic">
+            <div className="spacer-square"></div>
+            <div className="spacer-line"></div>
+            <div className="spacer-square-large"></div>
+            <div className="spacer-line"></div>
+            <div className="spacer-square"></div>
+          </div>
+        </div>
+        <ArchiveSection posts={postsWithImages} />
+      </div>
+    </PageLayout>
+  );
+}
