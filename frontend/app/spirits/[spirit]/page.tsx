@@ -24,6 +24,8 @@ export default async function SpiritPage({ params }: { params: Promise<{ spirit:
     ...post,
     imageUrl: post.image ? urlFor(post.image)?.width(500).height(500).url() || "" : "",
   }));
+  const spirits = await client.fetch<string[]>(`*[_type == "keylist" && slug.current == "tag-list-spirits"][0].tags`, {}, FETCH_OPTIONS);
+
 
   return (
     <PageLayout>
@@ -42,7 +44,7 @@ export default async function SpiritPage({ params }: { params: Promise<{ spirit:
             <div className="spacer-square"></div>
           </div>
         </div>
-        <ArchiveSection posts={postsWithImages} />
+        <ArchiveSection spirits={spirits} posts={postsWithImages} />
       </div>
     </PageLayout>
   );

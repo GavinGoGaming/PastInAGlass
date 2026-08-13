@@ -4,8 +4,9 @@ import { useState } from "react";
 import ArchiveGrid from "./ArchivePosts";
 import type { SanityDocument } from "next-sanity";
 import { usePageState } from "../layout/PageState";
+import { useRouter } from "next/navigation";
 
-export default function ArchiveSection({ posts }: { posts: SanityDocument[] }) {
+export default function ArchiveSection({ posts, spirits }: { posts: SanityDocument[], spirits?: string[] }) {
     const [search, setSearch] = useState("");
     const [tagsFilter, setTagsFilter] = useState<string[]>([]);
 
@@ -17,6 +18,8 @@ export default function ArchiveSection({ posts }: { posts: SanityDocument[] }) {
 
     const {isFilterOpen, setIsFilterOpen} = usePageState();
     const onClose = () => setIsFilterOpen(false);
+
+    const router = useRouter();
 
     return (
         <>
@@ -34,8 +37,24 @@ export default function ArchiveSection({ posts }: { posts: SanityDocument[] }) {
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                     />
+                    {spirits && <div className="tags-filter-group">
+                        <span className="tags-filter-label">Spirits</span>
+                        <div className="tags-filter">
+                            {spirits.map((tag) => (
+                                <span
+                                    key={tag}
+                                    className={`tag ${(window?.location?.pathname || '').includes(tag) ? "selected" : ""}`}
+                                    onClick={() => {
+                                        router.push(`/spirits/${encodeURIComponent(tag)}`);
+                                    }}
+                                >
+                                    {tag}
+                                </span>
+                            ))}
+                        </div>
+                    </div>}
                     <div className="tags-filter-group">
-                        <span className="tags-filter-label">Tags</span>
+                        <span className="tags-filter-label">Filter by Tags</span>
                         <div className="tags-filter">
                             {tags.map((tag) => (
                                 <span
