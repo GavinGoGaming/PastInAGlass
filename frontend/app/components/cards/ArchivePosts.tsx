@@ -6,7 +6,7 @@ import Card from "./Card";
 import { SanityDrink } from "@/app/utils/types";
 
 interface ArchiveGridProps {
-    posts: SanityDrink[];
+    posts: SanityDocument[];
     search: string;
     tagsFilter: string[];
     toggleTagFilter: (tag: string) => void;
@@ -42,7 +42,7 @@ export default function ArchiveGrid({ posts, search, tagsFilter, toggleTagFilter
     return (
         <>
             <div className="archive-drinks">
-                {visiblePosts.map((post: SanityDrink) => (
+                {visiblePosts.map((post: SanityDocument) => (
                     <Card
                         key={post._id}
                         description={post.body}

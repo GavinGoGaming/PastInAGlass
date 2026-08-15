@@ -7,7 +7,7 @@ import { usePageState } from "../layout/PageState";
 import { useRouter } from "next/navigation";
 import { SanityDrink } from "@/app/utils/types";
 
-export default function ArchiveSection({ posts, spirits }: { posts: SanityDrink[], spirits?: string[] }) {
+export default function ArchiveSection({ posts, spirits }: { posts: SanityDocument[], spirits?: string[] }) {
     const [search, setSearch] = useState("");
     const [tagsFilter, setTagsFilter] = useState<string[]>([]);
 

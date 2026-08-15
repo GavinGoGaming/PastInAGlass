@@ -1,6 +1,6 @@
 import { SanityDocument } from "next-sanity";
 
-export type SanityDrink = SanityDocument | {
+export type SanityDrink = {
     title: string;
     imageUrl: string;
     body: any;
