@@ -12,7 +12,7 @@ interface ArchiveGridProps {
     toggleTagFilter: (tag: string) => void;
 }
 
-const COUNT_AMOUNT = 2;
+const COUNT_AMOUNT = 6;
 
 export default function ArchiveGrid({ posts, search, tagsFilter, toggleTagFilter }: ArchiveGridProps) {
     const [showCount, setShowCount] = useState(COUNT_AMOUNT);
