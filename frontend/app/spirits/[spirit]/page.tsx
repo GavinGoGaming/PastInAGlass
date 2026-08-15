@@ -30,7 +30,7 @@ export default async function SpiritPage({ params }: { params: Promise<{ spirit:
     <PageLayout>
       <Header 
         customTitle={spirit}
-        customDescription={`All drinks made with ${spirit.toLowerCase()}.`}
+        smallHeader={true}
       />
       <div className="archive">
         <span>The Archive</span>
