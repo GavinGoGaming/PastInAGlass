@@ -39,7 +39,7 @@ export default function DrinkPageContent({ data, similarDrinks }: {
 }) {
     return (
         <PageLayout actionButton="archive">
-            <DrinkHeader title={data.title} imageUrl={data.headerImageUrl || data.imageUrl} tags={data.tags.map((tag) => tag.label)} />
+            <DrinkHeader title={data.title} imageUrl={data.headerImageUrl || '/default.jpg'} tags={data.tags.map((tag) => tag.label)} />
             <div className="content-section">
                 <div className="drink-body">
                     <div className="drink-body-left">
