@@ -20,7 +20,7 @@ export default async function Home() {
     imageUrl: post.image ? urlFor(post.image)?.width(500).height(500).url() || "" : "",
   }));
 
-  const spirits = await client.fetch<string[]>(`*[_type == "keylist" && slug.current == "tag-list-spirits"][0].tags`, {}, FETCH_OPTIONS);
+  const spirits = await client.fetch<string[]>(`*[_type == "keylist" && slug.current == "tag-list-spirits"][0].tags[]`, {}, FETCH_OPTIONS);
 
   console.log(spirits)
 
@@ -38,7 +38,7 @@ export default async function Home() {
             <div className="spacer-square"></div>
           </div>
         </div>
-        <ArchiveSection spirits={spirits} posts={postsWithImages} />
+        <ArchiveSection spirits={spirits.map((tag: any) => tag.label)} posts={postsWithImages} />
       </div>
     </PageLayout>
   );

@@ -96,6 +96,17 @@ p {
   letter-spacing: 0.2rem;
 }
 
+.header.small {
+  min-height: 200px;
+}
+.header.small .header-inner {
+  height: 240px;
+  padding: 2rem 0;
+}
+.header.small img {
+  height: 160px;
+}
+
 .spacer {
   height: 4px;
   width: 100%;
@@ -641,7 +652,7 @@ button:hover {
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  width: 350px;
+  width: 400px;
   height: fit-content;
 }
 .drink-body .drink-image {

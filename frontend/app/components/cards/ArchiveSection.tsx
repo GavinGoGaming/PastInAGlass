@@ -1,14 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ArchiveGrid from "./ArchivePosts";
 import type { SanityDocument } from "next-sanity";
 import { usePageState } from "../layout/PageState";
 import { useRouter } from "next/navigation";
+import { SanityDrink } from "@/app/utils/types";
 
 export default function ArchiveSection({ posts, spirits }: { posts: SanityDocument[], spirits?: string[] }) {
     const [search, setSearch] = useState("");
     const [tagsFilter, setTagsFilter] = useState<string[]>([]);
+
+    const [pathname, setPathname] = useState<string>("");
+    useEffect(() => {
+        if(!window) return;
+        setPathname(window.location.pathname);
+    }, []);
 
     const tags = Array.from(
         new Set(
@@ -43,7 +50,7 @@ export default function ArchiveSection({ posts, spirits }: { posts: SanityDocume
                             {spirits.map((tag) => (
                                 <span
                                     key={tag}
-                                    className={`tag ${(window?.location?.pathname || '').includes(tag) ? "selected" : ""}`}
+                                    className={`tag ${(pathname || '').includes(tag) ? "selected" : ""}`}
                                     onClick={() => {
                                         router.push(`/spirits/${encodeURIComponent(tag)}`);
                                     }}
@@ -56,7 +63,7 @@ export default function ArchiveSection({ posts, spirits }: { posts: SanityDocume
                     <div className="tags-filter-group">
                         <span className="tags-filter-label">Filter by Tags</span>
                         <div className="tags-filter">
-                            {tags.map((tag) => (
+                            {tags.filter((tag) => !spirits || !spirits.includes(tag)).map((tag) => (
                                 <span
                                     key={tag}
                                     className={`tag ${tagsFilter.includes(tag) ? "selected" : ""}`}

@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { usePageState } from "./PageState";
+import Link from "next/link";
 
 export default function Navbar({
     actionButton = "filter"
@@ -15,7 +16,7 @@ export default function Navbar({
             <div className="navbar-content">
                 <div className="navbar-logo">
                     <img src="/glass.png" alt="Past in a Glass" />
-                    <a>Past in a Glass</a>
+                    <Link href="/">Past in a Glass</Link>
                 </div>
                 {/* <div className="navbar-links">
                 <i className="fab fa-instagram"></i>

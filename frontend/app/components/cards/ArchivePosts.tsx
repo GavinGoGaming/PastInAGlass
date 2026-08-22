@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import type { SanityDocument } from "next-sanity";
 import Card from "./Card";
+import { SanityDrink } from "@/app/utils/types";
 
 interface ArchiveGridProps {
     posts: SanityDocument[];
@@ -11,10 +12,10 @@ interface ArchiveGridProps {
     toggleTagFilter: (tag: string) => void;
 }
 
-const INITIAL_COUNT = 6;
+const COUNT_AMOUNT = 6;
 
 export default function ArchiveGrid({ posts, search, tagsFilter, toggleTagFilter }: ArchiveGridProps) {
-    const [showAll, setShowAll] = useState(false);
+    const [showCount, setShowCount] = useState(COUNT_AMOUNT);
 
     const postsShown = useMemo(() => {
         return posts.filter((post) => {
@@ -33,13 +34,15 @@ export default function ArchiveGrid({ posts, search, tagsFilter, toggleTagFilter
         });
     }, [posts, search, tagsFilter]);
 
-    const visiblePosts = showAll ? postsShown : postsShown.slice(0, INITIAL_COUNT);
-    const hasMore = postsShown.length > INITIAL_COUNT;
+    const visiblePosts = useMemo(() => {
+        return postsShown.slice(0, showCount);
+    }, [postsShown, showCount]);
+    const hasMore = postsShown.length > showCount;
 
     return (
         <>
             <div className="archive-drinks">
-                {visiblePosts.map((post) => (
+                {visiblePosts.map((post: SanityDocument) => (
                     <Card
                         key={post._id}
                         description={post.body}
@@ -52,8 +55,10 @@ export default function ArchiveGrid({ posts, search, tagsFilter, toggleTagFilter
                     />
                 ))}
             </div>
-            {hasMore && !showAll && (
-                <button onClick={() => setShowAll(true)}>Show more...</button>
+            {hasMore && (
+                <div className="archive-show-more">
+                    <button onClick={() => setShowCount(showCount + COUNT_AMOUNT)}>Show more...</button>
+                </div>
             )}
         </>
     );

@@ -1,3 +1,5 @@
+import { SanityDocument } from "next-sanity";
+
 export type SanityDrink = {
     title: string;
     imageUrl: string;
@@ -8,4 +10,5 @@ export type SanityDrink = {
     headerImageUrl?: string;
     photographer?: string;
     instagram?: string;
+    _id: string;
 };
